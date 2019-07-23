@@ -1,0 +1,25 @@
+백엔드 서버는 데이터 처리라 디비연동
+
+프론트 서버는 화면 렌더링, 검색엔진에 최적화 특화 되어있음 next.js를 서버 사용
+
+npm i : react react-dom next antd
+
+npm i -D : webpack nodemon eslint eslint-plugin-import eslint-plugin-react eslint-plugin-react-hooks
+
+nodemon은 재시작 할때 도와주는 모듈이다
+next로 프로젝트를 만들게 되면 index.html 이딴거 하나도 필요없고 알아서 다 라우트 해준다 그리고 자동 서버사이드렌더링까지!
+create-react-app 저리가라다
+
+
+_document.js    html, body, head  서버사이드렌더링시 작성하게 됨
+
+_app.js     root
+
+pages       실제 컴포넌트
+
+_error.js   에러발생시의 화면
+
+
+antd에서 반응형 사이즈 조정
+xs: 모바일 sm: 태블릿pc , md : 노트북 사이즈, lg : pc사이즈
+전체 사이즈는 가로를 24를 기준으로 나누면 된다.

@@ -1,0 +1,21 @@
+{
+    "parseOptions" :{
+        "ecmaVersion" : 2019, //ecma 버전
+        "sourceType" : "module", // script타입도 잇지만 우리는 리액트로 싱글 페이지 어플리케이션이라 module을 사용
+        "ecmaFeatures" : { 
+            "jsx" : true // react 의 jsx 문법을 사용 할 수 잇게 해준다
+        }    
+    },
+    "env" :{
+        "browser" : true, //브라우저 환경엣 돌린다
+        "node" : true // 노드를 사용 할 것이다
+    },
+    "extends" :[
+        "eslint:recommended", //eslint에서 추천하는 자바스크립트 코딩 스타일
+        "plugin:react/recommended" //eslint에서 추천하는 react 코딩 스타일
+    ],
+    "plugins":[
+        "import", //import export 가능하게 하는 부분
+        "react-hooks", //react-hooks 가능하게 하는 부분
+    ]
+}
