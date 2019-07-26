@@ -1,13 +1,17 @@
 import React from 'react';
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import {Menu, Input, Button, Row, Col, Card, Avatar} from 'antd';
+import {Menu, Input, Button, Row, Col} from 'antd';
 
-const dummy = {
+import UserProfile from './UserProfile'
+import LoginForm from './LoginForm'
+
+export const dummy = {
     nickname : '김서버',
     Post :[],
     Following : [],
     Followers : [],
+    isLoggedin: true
 }
 
 const AppLayout = ({children})=>{
@@ -21,22 +25,16 @@ const AppLayout = ({children})=>{
                 </Menu.Item>
                 <Link  href= '/signup'><a><Button>회원가입</Button></a></Link>
             </Menu>
-            <Row>
+            <Row gutter ={10}>
                 <Col xs = {24} md = {6}>
-                    <Card
-                        actions = {[
-                            <div key = 'twit'>짹쨱<br />{dummy.Post.length}</div>,
-                            <div key = 'twit'>팔로잉<br />{dummy.Following.length}</div>,
-                            <div key = 'twit'>팔로워<br />{dummy.Followers.length}</div>,
-                        ]}>
-                        <Card.Meta avatar = {<Avatar>{dummy.nickname[0]}</Avatar>}
-                        title = {dummy.nickname}></Card.Meta> 
-                    </Card>
+                    {dummy.isLoggedin ?<UserProfile/>:
+                    <LoginForm />
+                    }
                 </Col>
                 <Col xs = {24} md = {12}>
                     {children}
                 </Col>
-                <Col xs = {24} md = {6}>세번째 </Col>
+                <Col xs = {24} md = {6}>칠드런이 index다! </Col>
             </Row>
         </div>
     );

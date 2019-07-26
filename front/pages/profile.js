@@ -1,12 +1,14 @@
 import React from 'react'
-import Head from 'next/head';
-import AppLayout from '../components/AppLayout';
 
+import NicknameEditForm from '../components/NicknameEditForm'
+import FollowerList from '../components/FollowerList'
 const Profile = ()=>{
     return(
         <> 
             <div>
-                프로필
+                <NicknameEditForm/>
+                <FollowerList name = {'팔로워 목록'}/>
+                <FollowerList name = {'팔로잉 목록'}/>
             </div>
           
         </>
