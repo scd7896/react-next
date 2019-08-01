@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import {Menu, Input, Button, Row, Col} from 'antd';
+import {useSelector} from 'react-redux'
 
 import UserProfile from './UserProfile'
 import LoginForm from './LoginForm'
@@ -11,10 +12,11 @@ export const dummy = {
     Post :[],
     Following : [],
     Followers : [],
-    isLoggedin: true
 }
 
 const AppLayout = ({children})=>{
+    const isLoggedin = useSelector(state => state.user.isLoggedIn)
+    
     return(
         <div>
             <Menu mode = "horizontal">
@@ -27,7 +29,7 @@ const AppLayout = ({children})=>{
             </Menu>
             <Row gutter ={10}>
                 <Col xs = {24} md = {6}>
-                    {dummy.isLoggedin ?<UserProfile/>:
+                    {isLoggedin ?<UserProfile/>:
                     <LoginForm />
                     }
                 </Col>

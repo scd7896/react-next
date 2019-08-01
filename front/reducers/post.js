@@ -1,5 +1,16 @@
 export const initalState = {
-    mainPosts : [],
+    mainPosts : [
+        {
+            User :{
+                id:1,
+                nickname :'김서버',
+            },
+            content : 'first commit',
+            img : 'https://i.ytimg.com/vi/Bv4cVyL3NXo/maxresdefault.jpg',
+     
+        }
+    ],
+    imagePaths :[]
 }
 
 const ADD_POST = 'ADD_POST'
@@ -31,6 +42,9 @@ const post = (state = initalState, action)=>{
                 ...state,
                 mainPosts : [action.data, ...state.mainPosts]
             }
+        default : return {
+            ...state
+        }
     }
 }
 
