@@ -23,3 +23,28 @@ _error.js   에러발생시의 화면
 antd에서 반응형 사이즈 조정
 xs: 모바일 sm: 태블릿pc , md : 노트북 사이즈, lg : pc사이즈
 전체 사이즈는 가로를 24를 기준으로 나누면 된다.
+
+
+"dependencies": {
+    "axios": "^0.19.0",
+    "bcrypt": "^3.0.6", //비밀번호 암호화
+    "cookie-parser": "^1.4.4", //쿠키 관리
+    "cors": "^2.8.5", // 프론트 백서버 관리
+    "dotenv": "^8.0.0", //비밀번호 저장관리
+    "express": "^4.17.1",
+    "express-session": "^1.16.2", // express 세션관리
+    "helmet": "^3.20.0", // express 보안
+    "hpp": "^0.2.2",
+    "morgan": "^1.9.1", // 서버에 로그 남기기
+    "multer": "^1.4.2",//이미지 업로드
+    "passport": "^0.4.0",  // 로그인 구현도와주는것
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.12.2",
+    "sequelize-cli": "^5.5.0"
+  }
+}
+"devDependencies": {
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "nodemon": "^1.19.1" // 서버 자동으로 재시작
+  }

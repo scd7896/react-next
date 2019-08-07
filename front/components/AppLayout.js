@@ -2,8 +2,9 @@ import React from 'react';
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import {Menu, Input, Button, Row, Col} from 'antd';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
+import {CLICK_SIGNUP_BUTTON} from '../reducers/user'
 import UserProfile from './UserProfile'
 import LoginForm from './LoginForm'
 
@@ -16,7 +17,8 @@ export const dummy = {
 
 const AppLayout = ({children})=>{
     const isLoggedin = useSelector(state => state.user.isLoggedIn)
-    
+    const dispatch = useDispatch()
+
     return(
         <div>
             <Menu mode = "horizontal">
@@ -25,7 +27,7 @@ const AppLayout = ({children})=>{
                 <Menu.Item key = 'mail'>
                     <Input.Search enterButton style = {{verticalAlign : 'middle'}}/>
                 </Menu.Item>
-                <Link  href= '/signup'><a><Button>회원가입</Button></a></Link>
+                <Link  href= '/signup'><a><Button onClick = {dispatch({type : CLICK_SIGNUP_BUTTON})}>회원가입</Button></a></Link>
             </Menu>
             <Row gutter ={10}>
                 <Col xs = {24} md = {6}>

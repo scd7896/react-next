@@ -1,15 +1,18 @@
 import {all, delay,fork, takeEvery,takeLatest, call,put,take} from 'redux-saga/effects'
-import {LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE}from '../reducers/user'
+import {LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS,SIGN_UP_FAILURE}from '../reducers/user'
+import axios from 'axios'
 
-const HELLO_SAGA = 'HELLO_SAGA'
+// watch -> watch했을때 작동되는 함수 -> 서버에 데이터 통신하는 api함수
 
-function loginApi(){
+function loginApi(loginData){
     //TOD 서버에 요청을 보내는 부분
+    return axios.post('/login', loginData)
 }
 
-function* login(){
+function* login(action){
     try{
-        yield call(loginApi); //서버찍고 다시 올때까지 대기
+        call(loginApi, action.data)
+        //yield call(loginApi); //서버찍고 다시 올때까지 대기
         yield put({ // PUT은 dispatch 동일
             type : LOG_IN_SUCCESS
         })
@@ -35,24 +38,34 @@ function* watchLogin (){
 //         console.log('사가가 잘 실행됬어~~~')
 //     }
 // }
-function* hello(){
-    //비동기처리가 여러번있었는데 그중 한번에만 반응을 하고싶을때 사용
-    //여러번 비동기처리가 있으면 다 유효시킬꺼면 takeEvery
-    yield delay(1000)
-    yield put({
-        type : 'BYE_SAGA'
-    })
+function signUpAPI(signUpData){
+    //todo
+    return axios.post('http://localhost:3065/api/user/', signUpData)
 }
 
-function* watchHello (){
-    yield takeLatest(HELLO_SAGA, hello)
-    
+function* signUp (action){
+    try{
+        //yield call(signUpAPI);
+        yield call(signUpAPI, action.data)
+        yield put({
+            type : SIGN_UP_SUCCESS
+        })
+    }catch(e){
+        yield put({
+            type : SIGN_UP_FAILURE,
+            error : e
+        })
+    }
+}
+
+function* watchSignUp(){
+    yield takeEvery(SIGN_UP_REQUEST, signUp)
 }
 
 export default function* userSaga(){
     yield all([
         fork(watchLogin),
-        fork(watchHello) //fork는 순서를 신경 안써도 되는 액션들로 진행 
+        fork(watchSignUp) //fork는 순서를 신경 안써도 되는 액션들로 진행 
         //실상 얘네들이 이벤트리스너이니 순서가 무슨상관
     ])
 }

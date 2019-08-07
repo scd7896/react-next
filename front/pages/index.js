@@ -19,18 +19,7 @@ const Home = ()=>{
         //         Post : ['사사사사']
         //     }
         // })
-        dispatch({
-            type :'HELLO_SAGA'
-        })
-        dispatch({
-            type :'HELLO_SAGA'
-        })
-        dispatch({
-            type :'HELLO_SAGA'
-        })
-        dispatch({
-            type :'HELLO_SAGA'
-        })
+       
     }, [])
     return(
         <div>

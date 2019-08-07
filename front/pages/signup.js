@@ -1,8 +1,9 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Form, Input, Checkbox, Button} from 'antd'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import Router from 'next/router'
 
-import {signupAction} from '../reducers/user'
+import {signupRequestAction} from '../reducers/user'
 
 export const useInput = (initValue = '')=>{
     const [value, setter] = useState(initValue)
@@ -17,6 +18,7 @@ const Signup = ()=>{
     const [term, setTerm] = useState(false);
     const [passwordError, setPasswordError] = useState(false)
     const [termError, setTermError] = useState(false);
+    const {isSigningUp, me,isSignedUp} = useSelector(state=> state.user) 
     const dispatch = useDispatch();
     
     
@@ -25,6 +27,17 @@ const Signup = ()=>{
     const [password, onChangePass] = useInput('');
     const [nick, onChangeNick] = useInput('');
     
+    useEffect(()=>{
+        if(me !== null){
+            alert('로그인 했으니 메인페이지로 이동합니다')
+            Router.push('/')
+        }
+        if(isSignedUp){
+            alert('로그인을 위해 메인페이지로 이동합니다')
+            Router.push('/')
+        }
+    },[me && me.id, isSignedUp])
+
     const onSubmit = useCallback((e)=>{
         e.preventDefault();
         if(password !== passwordChk){
@@ -33,8 +46,11 @@ const Signup = ()=>{
         if(term === false){
             return setTermError(true)
         }
-        dispatch(signupAction({id, password, nickname : nick}))
-    },[password,passwordChk,term])
+        dispatch(signupRequestAction({
+            userId : id, 
+            password, 
+            nickname : nick}))
+    },[id, nick, password,passwordChk,term])
 
     const onChangeTerm = useCallback((e)=>{
         setTermError(false)
@@ -72,7 +88,7 @@ const Signup = ()=>{
                         <Checkbox name = 'user-term' value = {term} onChange = {onChangeTerm}>킹갓서버의 말을 잘들을 것을 동의합니다.</Checkbox>
                         {termError && <div style ={{color: 'red'}}>약관에 동의 하셔야합니다</div>}
                     <div style = {{marginTop : 10}}>
-                        <Button type = 'primary' htmlType = 'submit'> 가입하기</Button>
+                        <Button type = 'primary' loading = {isSigningUp} htmlType = 'submit'> 가입하기</Button>
                     </div>
                 </Form>
         </>
