@@ -11,7 +11,7 @@ import reducer from '../reducers'
 import rootSaga from '../sagas';
 
 
-const NodeBird = ({Component, store})=>{
+const NodeBird = ({Component, store, pageProps})=>{
     return(
         <Provider store = {store}>  
             <Head>
@@ -19,7 +19,7 @@ const NodeBird = ({Component, store})=>{
                 <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css' />
             </Head>
             <AppLayout>
-                <Component />
+                <Component {...pageProps}/>
             </AppLayout>
         </Provider>
     )
@@ -27,8 +27,19 @@ const NodeBird = ({Component, store})=>{
 
 NodeBird.propTypes = {
     Component : PropTypes.elementType,
-    store : PropTypes.object
+    store : PropTypes.object,
+    pageProps: PropTypes.object.isRequired
 }
+
+NodeBird.getInitialProps = async(context)=>{
+    const {ctx, Component} = context
+    let pageProps = {}
+    if(Component.getInitialProps){
+        pageProps = await Component.getInitialProps(ctx)
+    }
+    return {pageProps}
+}
+
 export default withRedux((initalState, options)=>{ //next에서 리덕스 사용방식
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware]; //넣고싶은 미들웨어 있으면 넣으면됨.

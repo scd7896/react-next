@@ -1,9 +1,4 @@
-const dummyUsers = {
-    nickname: '킹갓서버',
-    Post : ['이이이이','사랑해'],
-    Following : ['김갓서버', '개쩌는새끼'],
-    Followers : ['리액트', '리덕스'] ,
-}
+
 export const initalState = {
     isLoggedIn : false, //로그인여부
     isLoggingOut : false, //로그아웃 시도중
@@ -62,15 +57,10 @@ export const ADD_POST_TO_ME = 'ADD_POST_TO_ME'
                 from user join posts using(user.number)
                 where userId = 받아온Id 
     5. 이데이터를 user.user state에 저장후에 각각 데이터를 핸들링한다.*/
-export const loginRequestAction = (nickname)=> {
+export const loginRequestAction = (data)=> {
     return {
         type : LOG_IN_REQUEST,
-        data :{
-            nickname : nickname,
-            Following :[],
-            Followers : [],
-            Post : [],
-        },
+        data ,
         isLoading : true
     }
 }
@@ -97,15 +87,15 @@ const user = (state = initalState, action )=>{
             return {
                 ...state,
                 isLoggingIn : true,
-                me : action.data,
+                isLoggedIn : false,
                 logInErrorReason : ''
             }
         case LOG_IN_SUCCESS :{
             return {
                 ...state,
                 isLoggingIn : false,
+                me : action.data,
                 isLoggedIn : true,
-                me : dummyUsers,
                 isLoading: false
             }
         }
@@ -119,13 +109,50 @@ const user = (state = initalState, action )=>{
             }
         }
        
-        case LOG_OUT_REQUEST :
+        case LOG_OUT_REQUEST :{
             return{
                 ...state,
-                isLoggedIn : false,
-                me : null,
-                isLoading :true
+                isLoggingOut : true
             }
+        }
+            
+        case LOG_OUT_SUCCESS :{
+            return{
+                ...state,
+                isLoggingOut : false,
+                isLoggedIn : false,
+                me : null
+            }
+        }
+            
+        case LOG_OUT_FAILURE :{
+            return {
+                ...state,
+                isLoggingOut : false,
+            }
+        }
+           
+
+        case LOAD_USER_REQUEST : {
+            return {
+                ...state,
+            }
+        }
+
+        case LOAD_USER_SUCCESS:{
+            return {
+                ...state,
+                me : action.data,
+                isLoggedIn : true
+            }   
+        }
+            
+        case LOAD_USER_FAILURE :{
+            return {
+                ...state,
+            } 
+        }
+            
         case SIGN_UP_REQUEST :{
             return{
                 ...state,

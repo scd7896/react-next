@@ -3,11 +3,12 @@ import {useDispatch, useSelector} from 'react-redux'
 
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard'
+import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 
 const Home = ()=>{
     const user = useSelector(state => state.user.user)
     const isLoggedIn = useSelector(state=>state.user.isLoggedIn)
-    const mainPosts = useSelector(state=>state.post.mainPosts)
+    const {mainPosts} = useSelector(state=>state.post)
     const dispatch = useDispatch()
     useEffect(()=>{
         // dispatch({
@@ -19,7 +20,9 @@ const Home = ()=>{
         //         Post : ['사사사사']
         //     }
         // })
-       
+        dispatch({
+            type : LOAD_MAIN_POSTS_REQUEST
+        })
     }, [])
     return(
         <div>

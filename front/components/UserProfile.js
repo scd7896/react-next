@@ -6,19 +6,15 @@ import {Button} from 'antd'
 import {logoutRequestAction} from '../reducers/user'
 
 
-const UserProfile = ()=>{
-    const {me} = useSelector(state=> state.user)
+const UserProfile = ({me})=>{
+    console.log(me)
     const dispatch = useDispatch();
-    
     const onLogout = useCallback(()=>{
         dispatch(logoutRequestAction)
     },[])
     return(
         <Card
             actions = {[
-                <div key = 'twit'>짹쨱<br />{me.Post.length}</div>,
-                <div key = 'twit'>팔로잉<br />{me.Following.length}</div>,
-                <div key = 'twit'>팔로워<br />{me.Followers.length}</div>,,
                 
             ]}>
             <Card.Meta avatar = {<Avatar>{me.nickname[0]}</Avatar>}

@@ -1,20 +1,25 @@
 import {all, delay,fork, takeEvery,takeLatest, call,put,take} from 'redux-saga/effects'
-import {LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS,SIGN_UP_FAILURE}from '../reducers/user'
+import {LOG_OUT_REQUEST,LOG_OUT_FAILURE, LOG_OUT_SUCCESS,LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS,SIGN_UP_FAILURE}from '../reducers/user'
 import axios from 'axios'
+
 
 // watch -> watch했을때 작동되는 함수 -> 서버에 데이터 통신하는 api함수
 
 function loginApi(loginData){
     //TOD 서버에 요청을 보내는 부분
-    return axios.post('/login', loginData)
+    return axios.post('/user/login', loginData.data,{
+        withCredentials : true,
+    })
 }
 
 function* login(action){
     try{
-        call(loginApi, action.data)
+        const result = yield call(loginApi, action.data)
+        
         //yield call(loginApi); //서버찍고 다시 올때까지 대기
         yield put({ // PUT은 dispatch 동일
-            type : LOG_IN_SUCCESS
+            type : LOG_IN_SUCCESS,
+            data : result.data
         })
     }catch(e){ //loginAPI 실패
         console.error(e)
@@ -40,7 +45,7 @@ function* watchLogin (){
 // }
 function signUpAPI(signUpData){
     //todo
-    return axios.post('http://localhost:3065/api/user/', signUpData)
+    return axios.post('/user/', signUpData)
 }
 
 function* signUp (action){
@@ -62,9 +67,64 @@ function* watchSignUp(){
     yield takeEvery(SIGN_UP_REQUEST, signUp)
 }
 
+function logoutAPI(){
+    //todo
+    return axios.post('/user/logout',{},{
+        withCredentials: true
+    })
+}
+
+function* logout (){
+    try{
+        //yield call(signUpAPI);
+        yield call(logoutAPI)
+        yield put({
+            type : LOG_OUT_SUCCESS
+        })
+    }catch(e){
+        yield put({
+            type : LOG_OUT_FAILURE,
+            error : e
+        })
+    }
+}
+
+function* watchLogout(){
+    yield takeEvery(LOG_OUT_REQUEST, logout)
+}
+
+function loadUSerAPI(userid){
+    //todo
+    return axios.get(userid? '/user/' : '/user/', {
+        withCredentials : true,
+    })
+}
+
+function* loadUSer (action){
+    try{
+        const result = yield call(loadUSerAPI, action.data)
+        yield put({
+            type : LOAD_USER_SUCCESS,
+            data : result.data,
+            me: !action.data
+        })
+    }catch(e){
+        yield put({
+            type : LOAD_USER_FAILURE,
+            error : e
+        })
+    }
+}
+
+function* watchLoadUSer(){
+    yield takeEvery(LOAD_USER_REQUEST, loadUSer)
+}
+
 export default function* userSaga(){
     yield all([
         fork(watchLogin),
+        fork(watchLogout),
+        fork(watchLoadUSer),
         fork(watchSignUp) //fork는 순서를 신경 안써도 되는 액션들로 진행 
         //실상 얘네들이 이벤트리스너이니 순서가 무슨상관
     ])

@@ -2,6 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {useSelector, useDispatch} from 'react-redux'
 import {Button, Card, Avatar, Icon, Input, Comment, Form, List} from 'antd'
+import Link from 'next/link'
 import { ADD_COMMENT_REQUEST } from '../reducers/post';
 
 const PostCard = ({c})=>{
@@ -52,7 +53,15 @@ const PostCard = ({c})=>{
                     <Card.Meta
                         avatar ={<Avatar>{c.User.nickname[0]}</Avatar>}
                         title = {c.User.nickname}
-                        description = {c.content}
+                        description = {<div>{c.content.split(/(#[^\s]+)/g).map((v)=>{
+                            if(v.match(/#[^\s]+/g)){
+                                return(
+                                    <Link href = {{pathname : `/hashtag`, query:{tag : v.slice(1)}}} 
+                                    as ={`/hashtag/${v.slice(1)}`} key = {v}><a>{v}</a></Link>
+                                )
+                            }
+                            return v
+                        })}</div>}
                     ></Card.Meta>
             </Card>        
             {commentFormOpend && (
