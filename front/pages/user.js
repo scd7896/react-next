@@ -1,12 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import {Card, Avatar} from 'antd'
+import PostCard from '../components/PostCard'
+import {useDispatch, useSelector} from 'react-redux'
 import { LOAD_USER_REQUEST } from '../reducers/user';
 
 const User = ({id})=>{
 
     const {mainPosts} = useSelector(state => state.post)
-    const {userInfo} = userSelector(state => state.user)
+    const {userInfo} = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch({
@@ -26,7 +28,7 @@ const User = ({id})=>{
                         <div key = 'twit'>
                             짹쨱
                             <br />
-                            {userInfo.Post}
+                            {userInfo.Posts}
                         </div>,
                         <div key = "following">
                             팔로잉
@@ -47,7 +49,7 @@ const User = ({id})=>{
                 </Card>
                  :null}
             {mainPosts.map(c=>(
-                <PostCard key = {+c.createdAt} post={c}/>
+                <PostCard key = {+c.createdAt} c={c}/>
             ))}
         </div>
     )

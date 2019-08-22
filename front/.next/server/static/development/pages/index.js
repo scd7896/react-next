@@ -88,10 +88,133 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./components/ImagesZoom.js":
+/*!**********************************!*\
+  !*** ./components/ImagesZoom.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-slick */ "react-slick");
+/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_slick__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "antd");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+var ImagesZoom = function ImagesZoom(_ref) {
+  var images = _ref.images,
+      onClose = _ref.onClose;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(0),
+      _useState2 = Object(_babel_runtime_corejs2_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState, 2),
+      currentSlide = _useState2[0],
+      setCurrentSlide = _useState2[1];
+
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      position: 'fixxed',
+      zIndex: 5000,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
+    style: {
+      height: 44,
+      background: 'white',
+      position: 'relative',
+      padding: 0,
+      textAlign: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    style: {
+      margin: 0,
+      fontSize: '17px',
+      color: '#333',
+      lineHeight: '44px'
+    }
+  }, "\uC0C1\uC138 \uC774\uBBF8\uC9C0"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Icon"], {
+    type: "close",
+    onClick: onClose,
+    style: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      padding: 15,
+      lineHeight: '14px',
+      cursor: 'pointer'
+    }
+  })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      height: 'calc(100% - 44px)',
+      background: '#090909'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_slick__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    initialSlide: 0,
+    afterChange: function afterChange(slide) {
+      return setCurrentSlide(slide);
+    },
+    infinite: false,
+    arrowsslidesToShow: 1,
+    slidesToScroll: 1
+  }, images.map(function (v) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      style: {
+        padding: 32,
+        textAlign: 'center'
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      src: "http://localhost:3065/".concat(v.src),
+      style: {
+        margin: '0 auto',
+        maxHeight: 750
+      }
+    }));
+  })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      textAlign: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      width: 75,
+      height: 30,
+      lineHeight: '30px',
+      borderRadius: 15,
+      background: '#313131',
+      display: 'inline-block',
+      textAlign: 'center',
+      color: 'white',
+      fontSize: '15px'
+    }
+  }, currentSlide + 1, " / ", images.length)))));
+};
+
+ImagesZoom.propTypes = {
+  images: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+    src: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
+  })).isRequired,
+  onClose: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func.isRequired
+};
+/* harmony default export */ __webpack_exports__["default"] = (ImagesZoom);
+
+/***/ }),
 
 /***/ "./components/PostCard.js":
 /*!********************************!*\
@@ -114,6 +237,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
+/* harmony import */ var _PostImages__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PostImages */ "./components/PostImages.js");
+
 
 
 
@@ -147,10 +272,20 @@ var PostCard = function PostCard(_ref) {
       isAddingComment = _useSelector2.isAddingComment;
 
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
+  var liked = me && c.Likers && c.Likers.find(function (v) {
+    return v.id === me.id;
+  });
   var onToggleComment = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function () {
     setCommentFormOpend(function (prev) {
       return !prev;
     });
+
+    if (!commentFormOpend) {
+      dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["LOAD_COMMENTS_REQUEST"],
+        data: c.id
+      });
+    }
   }, []);
   var onSubmitComment = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (e) {
     e.preventDefault();
@@ -159,31 +294,53 @@ var PostCard = function PostCard(_ref) {
       return alert('로그인 필요합니다');
     }
 
-    dispatch({
+    return dispatch({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["ADD_COMMENT_REQUEST"],
       data: {
-        postId: c.id
+        postId: c.id,
+        content: commentText
       }
     });
-  }, [me && me.id]);
+  }, [me && me.id, commentText]);
   var onChangeCommentText = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (e) {
     setCommentText(e.target.value);
   }, [commentAdded]);
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     setCommentText('');
   }, [commentAdded === true]);
+  var onToggleLike = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function () {
+    if (!me) {
+      return alert('로그인이 필요하니다');
+    }
+
+    if (liked) {
+      //좋아요 누른 상태
+      return dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["UNLIKE_POST_REQUEST"],
+        data: c.id
+      });
+    } else {
+      //좋아요 안 누른 상태
+      dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["LIKE_POST_REQUEST"],
+        data: c.id
+      });
+    }
+  }, [me && me.id, c && c.id, liked]);
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Card"], {
     key: +c.createdAt,
-    cover: c.img && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-      alt: "example",
-      src: c.img
+    cover: c.Images[0] && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_PostImages__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      images: c.Images
     }),
     actions: [react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Icon"], {
       type: "retweet",
       key: "retweet"
     }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Icon"], {
       type: "heart",
-      key: "heart"
+      theme: liked ? 'twoTone' : 'outlined',
+      twoToneColor: "#eb2f96",
+      key: "heart",
+      onClick: onToggleLike
     }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Icon"], {
       type: "message",
       key: "message",
@@ -194,7 +351,15 @@ var PostCard = function PostCard(_ref) {
     })],
     extra: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Button"], null, "\uD314\uB85C\uC6B0")
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Card"].Meta, {
-    avatar: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Avatar"], null, c.User.nickname[0]),
+    avatar: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      href: {
+        pathname: '/user',
+        query: {
+          id: c.User.id
+        }
+      },
+      as: "/user/".concat(c.User.id)
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Avatar"], null, c.User.nickname[0]))),
     title: c.User.nickname,
     description: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, c.content.split(/(#[^\s]+)/g).map(function (v) {
       if (v.match(/#[^\s]+/g)) {
@@ -231,7 +396,14 @@ var PostCard = function PostCard(_ref) {
       return (// 여기서 그 하나의 아이템으로 렌더링한다.
         react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Comment"], {
           author: item.User.nickname,
-          avatar: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Avatar"], null, item.User.nickname[0]),
+          avatar: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_5___default.a, {
+            href: {
+              pathname: '/user',
+              query: {
+                id: item.User.id
+              }
+            }
+          }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_4__["Avatar"], null, item.User.nickname[0]))),
           content: item.content
         }))
       );
@@ -288,6 +460,7 @@ var PostForm = function PostForm() {
       setText = _useState2[1];
 
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
+  var imageInput = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])();
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     setText('');
   }, [addedPost === true]);
@@ -298,16 +471,41 @@ var PostForm = function PostForm() {
       return alert('게시글 작성하세요');
     }
 
+    var formData = new FormData();
+    imagePaths.forEach(function (i) {
+      formData.append('image', i);
+    });
+    formData.append('content', text);
     dispatch({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["ADD_POST_REQUEST"],
-      data: {
-        content: text
-      }
+      data: formData
     });
-  }, [text]);
+  }, [text, imagePaths]);
   var onChangeText = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (e) {
     setText(e.target.value);
   }, []);
+  var onChangeImage = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (e) {
+    console.log(e.target.files);
+    var imageFormdata = new FormData();
+    [].forEach.call(e.target.files, function (f) {
+      imageFormdata.append('image', f);
+    });
+    dispatch({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["UPLOAD_IMAGES_REQUEST"],
+      data: imageFormdata
+    });
+  }, []);
+  var onClickImageUpload = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (e) {
+    imageInput.current.click();
+  }, [imageInput.current]);
+  var onRemoveImage = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function (index) {
+    return function (e) {
+      dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["REMOVE_IMAGE"],
+        index: index
+      });
+    };
+  });
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Form"], {
     style: {
       marginBottom: 20
@@ -322,8 +520,12 @@ var PostForm = function PostForm() {
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "file",
     multiple: true,
-    hidden: true
-  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], null, "\uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    hidden: true,
+    ref: imageInput,
+    onChange: onChangeImage
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    onClick: onClickImageUpload
+  }, "\uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     type: "primary",
     style: {
       "float": 'right'
@@ -342,11 +544,104 @@ var PostForm = function PostForm() {
         width: '200px'
       },
       alt: v
-    }), "}", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], null, "\uC81C\uAC70")));
+    }), "}", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      onClick: onRemoveImage(i)
+    }, "\uC81C\uAC70")));
   })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PostForm);
+
+/***/ }),
+
+/***/ "./components/PostImages.js":
+/*!**********************************!*\
+  !*** ./components/PostImages.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "antd");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ImagesZoom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ImagesZoom */ "./components/ImagesZoom.js");
+
+
+
+
+
+
+var PostImages = function PostImages(_ref) {
+  var images = _ref.images;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState2 = Object(_babel_runtime_corejs2_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState, 2),
+      showImageZoom = _useState2[0],
+      setShowImagesZoom = _useState2[1];
+
+  var onZoom = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function () {
+    setShowImagesZoom(true);
+  }, []);
+  var onClose = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(function () {
+    setShowImagesZoom(false);
+  }, []);
+
+  if (images.length === 1) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      src: "http://localhost:3065/".concat(images[0].src),
+      onClick: onZoom
+    }), showImageZoom && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ImagesZoom__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      images: images,
+      onClose: onClose
+    }));
+  }
+
+  if (images.length === 2) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      src: "http://localhost:3065/".concat(images[0].src),
+      width: "50%",
+      onClick: onZoom
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      src: "http://localhost:3065/".concat(images[0].src),
+      width: "50%",
+      onClick: onZoom
+    })), showImageZoom && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ImagesZoom__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      images: images,
+      onClose: onClose
+    }));
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: "http://localhost:3065/".concat(images[0].src),
+    width: "50%",
+    onClick: onZoom
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      display: 'inline-block',
+      width: '50%',
+      textAlign: 'center',
+      verticalAlign: 'middle'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
+    type: "plus"
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), images.length - 1, "\uC0AC\uC9C4 \uB354\uBCF4\uAE30")), showImageZoom && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ImagesZoom__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    images: images,
+    onClose: onClose
+  }));
+};
+
+PostImages.propTypes = {
+  images: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+    src: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
+  })).isRequired
+};
+/* harmony default export */ __webpack_exports__["default"] = (PostImages);
 
 /***/ }),
 
@@ -1845,16 +2140,6 @@ var initalState = {
   addCommentErrorReason: '',
   commentAdded: false
 };
-var dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: '제로'
-  },
-  content: '나는 미래인입니다.',
-  img: '',
-  Comments: []
-};
 var dummyComment = {
   User: {
     id: 1,
@@ -1903,6 +2188,17 @@ var post = function post() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
+    case UPLOAD_IMAGES_SUCCESS:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+        imagePaths: [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.imagePaths), Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(action.data))
+      });
+
+    case UPLOAD_IMAGES_FAILURE:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+
+    case UPLOAD_IMAGES_REQUEST:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+
     case ADD_POST_REQUEST:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         isAddingPost: true,
@@ -1913,7 +2209,8 @@ var post = function post() {
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         isAddingPost: false,
         mainPosts: [action.data].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts)),
-        addedPost: true
+        addedPost: true,
+        imagePaths: []
       });
 
     case ADD_POST_FAILURE:
@@ -1923,16 +2220,22 @@ var post = function post() {
         addedPost: true
       });
 
+    case LOAD_HASHTAG_POSTS_REQUEST:
+    case LOAD_USER_POSTS_REQUEST:
     case LOAD_MAIN_POSTS_REQUEST:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         mainPosts: []
       });
 
+    case LOAD_USER_POSTS_SUCCESS:
+    case LOAD_HASHTAG_POSTS_SUCCESS:
     case LOAD_MAIN_POSTS_SUCCESS:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         mainPosts: action.data
       });
 
+    case LOAD_USER_POSTS_FAILURE:
+    case LOAD_HASHTAG_POSTS_FAILURE:
     case LOAD_MAIN_POSTS_FAILURE:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
 
@@ -1947,7 +2250,7 @@ var post = function post() {
         return v.id === action.data.postId;
       });
       var _post = state.mainPosts[postIndex];
-      var Comments = [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post.Comments), [dummyComment]);
+      var Comments = [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post.Comments), [action.data.comment]);
 
       var mainPosts = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
 
@@ -1967,6 +2270,94 @@ var post = function post() {
         commentAdded: true
       });
 
+    case LOAD_COMMENTS_SUCCESS:
+      {
+        var _postIndex = state.mainPosts.findIndex(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post2 = state.mainPosts[_postIndex];
+        var _Comments = action.data.comments;
+
+        var _mainPosts = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts[_postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post2, {
+          Comments: _Comments
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          mainPosts: _mainPosts
+        });
+      }
+
+    case REMOVE_IMAGE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          imagePaths: state.imagePaths.filter(function (v, i) {
+            return i !== action.index;
+          })
+        });
+      }
+
+    case LIKE_POST_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case LIKE_POST_SUCCESS:
+      {
+        var _postIndex2 = state.mainPosts.findIndex(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post3 = statte.mainPosts[_postIndex2];
+        var Likers = [{
+          id: action.data.userId
+        }].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post3.Likers));
+
+        var _mainPosts2 = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts2[_postIndex2] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post3, {
+          Likers: Likers
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          mainPosts: _mainPosts2
+        });
+      }
+
+    case LIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_SUCCESS:
+      {
+        var _postIndex3 = state.mainPosts.find(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post4 = state.mainPosts[_postIndex3];
+
+        var _Likers = _post4.Likers.filter(function (v) {
+          return v.id !== action.data.userId;
+        });
+
+        var _mainPosts3 = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts3[_postIndex3] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post4, {
+          Likers: _Likers
+        });
+      }
+
+    case UNLIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
     default:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
   }
@@ -1976,7 +2367,7 @@ var post = function post() {
 
 /***/ }),
 
-/***/ 5:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/
@@ -2271,6 +2662,17 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-redux");
+
+/***/ }),
+
+/***/ "react-slick":
+/*!******************************!*\
+  !*** external "react-slick" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-slick");
 
 /***/ }),
 

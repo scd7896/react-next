@@ -1848,6 +1848,15 @@ var NodeBird = function NodeBird(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("title", null, "nodebird"), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("link", {
     rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
+  }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("link", {
+    rel: "stylesheet",
+    type: "text/css",
+    charset: "UTF-8",
+    href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+  }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("link", {
+    rel: "stylesheet",
+    type: "text/css",
+    href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
   })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_AppLayout__WEBPACK_IMPORTED_MODULE_9__["default"], null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Component, pageProps)));
 };
 
@@ -2184,16 +2193,6 @@ var initalState = {
   addCommentErrorReason: '',
   commentAdded: false
 };
-var dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: '제로'
-  },
-  content: '나는 미래인입니다.',
-  img: '',
-  Comments: []
-};
 var dummyComment = {
   User: {
     id: 1,
@@ -2242,6 +2241,17 @@ var post = function post() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
+    case UPLOAD_IMAGES_SUCCESS:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+        imagePaths: [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.imagePaths), Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(action.data))
+      });
+
+    case UPLOAD_IMAGES_FAILURE:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+
+    case UPLOAD_IMAGES_REQUEST:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+
     case ADD_POST_REQUEST:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         isAddingPost: true,
@@ -2252,7 +2262,8 @@ var post = function post() {
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         isAddingPost: false,
         mainPosts: [action.data].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts)),
-        addedPost: true
+        addedPost: true,
+        imagePaths: []
       });
 
     case ADD_POST_FAILURE:
@@ -2262,16 +2273,22 @@ var post = function post() {
         addedPost: true
       });
 
+    case LOAD_HASHTAG_POSTS_REQUEST:
+    case LOAD_USER_POSTS_REQUEST:
     case LOAD_MAIN_POSTS_REQUEST:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         mainPosts: []
       });
 
+    case LOAD_USER_POSTS_SUCCESS:
+    case LOAD_HASHTAG_POSTS_SUCCESS:
     case LOAD_MAIN_POSTS_SUCCESS:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
         mainPosts: action.data
       });
 
+    case LOAD_USER_POSTS_FAILURE:
+    case LOAD_HASHTAG_POSTS_FAILURE:
     case LOAD_MAIN_POSTS_FAILURE:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
 
@@ -2286,7 +2303,7 @@ var post = function post() {
         return v.id === action.data.postId;
       });
       var _post = state.mainPosts[postIndex];
-      var Comments = [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post.Comments), [dummyComment]);
+      var Comments = [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post.Comments), [action.data.comment]);
 
       var mainPosts = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
 
@@ -2305,6 +2322,94 @@ var post = function post() {
         addCommentErrorReason: action.error,
         commentAdded: true
       });
+
+    case LOAD_COMMENTS_SUCCESS:
+      {
+        var _postIndex = state.mainPosts.findIndex(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post2 = state.mainPosts[_postIndex];
+        var _Comments = action.data.comments;
+
+        var _mainPosts = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts[_postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post2, {
+          Comments: _Comments
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          mainPosts: _mainPosts
+        });
+      }
+
+    case REMOVE_IMAGE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          imagePaths: state.imagePaths.filter(function (v, i) {
+            return i !== action.index;
+          })
+        });
+      }
+
+    case LIKE_POST_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case LIKE_POST_SUCCESS:
+      {
+        var _postIndex2 = state.mainPosts.findIndex(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post3 = statte.mainPosts[_postIndex2];
+        var Likers = [{
+          id: action.data.userId
+        }].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_post3.Likers));
+
+        var _mainPosts2 = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts2[_postIndex2] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post3, {
+          Likers: Likers
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, {
+          mainPosts: _mainPosts2
+        });
+      }
+
+    case LIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_SUCCESS:
+      {
+        var _postIndex3 = state.mainPosts.find(function (v) {
+          return v.id === action.data.postId;
+        });
+
+        var _post4 = state.mainPosts[_postIndex3];
+
+        var _Likers = _post4.Likers.filter(function (v) {
+          return v.id !== action.data.userId;
+        });
+
+        var _mainPosts3 = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.mainPosts);
+
+        _mainPosts3[_postIndex3] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _post4, {
+          Likers: _Likers
+        });
+      }
+
+    case UNLIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
+      }
 
     default:
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state);
@@ -2500,9 +2605,15 @@ var user = function user() {
 
     case LOAD_USER_SUCCESS:
       {
+        if (action.me !== false) {
+          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+            me: action.data,
+            isLoggedIn: true
+          });
+        }
+
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: action.data,
-          isLoggedIn: true
+          userInfo: action.data
         });
       }
 
@@ -2621,23 +2732,59 @@ __webpack_require__.r(__webpack_exports__);
 
 var _marked =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(addComment),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(uploadImages),
     _marked2 =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchAddComment),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchUpLoadImages),
     _marked3 =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(addPost),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(loadComments),
     _marked4 =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchAddPost),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLoadComments),
     _marked5 =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(loadMainPosts),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(addComment),
     _marked6 =
 /*#__PURE__*/
-_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLoadMainPosts),
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchAddComment),
     _marked7 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(addPost),
+    _marked8 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchAddPost),
+    _marked9 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(loadMainPosts),
+    _marked10 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLoadMainPosts),
+    _marked11 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(loadHashtagPosts),
+    _marked12 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLoadHashtagPosts),
+    _marked13 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(loadUserPosts),
+    _marked14 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLoadUserPosts),
+    _marked15 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(unLikePost),
+    _marked16 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchUnLikePost),
+    _marked17 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(likePost),
+    _marked18 =
+/*#__PURE__*/
+_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchLikePost),
+    _marked19 =
 /*#__PURE__*/
 _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(postSaga);
 
@@ -2645,55 +2792,59 @@ _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(p
 
 
 
-function addCommentAPI() {}
+function uploadImagesAPI(formData) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/post/images", formData, {
+    withCredentials: true
+  });
+}
 
-function addComment(action) {
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function addComment$(_context) {
+function uploadImages(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function uploadImages$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["delay"])(2000);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(uploadImagesAPI, action.data);
 
         case 3:
-          _context.next = 5;
+          result = _context.sent;
+          _context.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_SUCCESS"],
-            data: {
-              postId: action.data.postId
-            }
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["UPLOAD_IMAGES_SUCCESS"],
+            data: result.data
           });
 
-        case 5:
-          _context.next = 12;
+        case 6:
+          _context.next = 13;
           break;
 
-        case 7:
-          _context.prev = 7;
+        case 8:
+          _context.prev = 8;
           _context.t0 = _context["catch"](0);
           console.error(_context.t0);
-          _context.next = 12;
+          _context.next = 13;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_FAILURE"],
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["UPLOAD_IMAGES_FAILURE"],
             error: _context.t0
           });
 
-        case 12:
+        case 13:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[0, 7]]);
+  }, _marked, null, [[0, 8]]);
 }
 
-function watchAddComment() {
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchAddComment$(_context2) {
+function watchUpLoadImages() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchUpLoadImages$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_REQUEST"], addComment);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["UPLOAD_IMAGES_REQUEST"], uploadImages);
 
         case 2:
         case "end":
@@ -2703,60 +2854,60 @@ function watchAddComment() {
   }, _marked2);
 }
 
-function addPostAPI(postData) {
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/post', postData, {
-    withCredentials: true
-  });
+function loadCommentsAPI(postId) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/post/".concat(postId, "/comments"));
 }
 
-function addPost(action) {
+function loadComments(action) {
   var result;
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function addPost$(_context3) {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function loadComments$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          console.log(action.data);
-          _context3.prev = 1;
-          _context3.next = 4;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(addPostAPI, action.data);
+          _context3.prev = 0;
+          _context3.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(loadCommentsAPI, action.data);
 
-        case 4:
+        case 3:
           result = _context3.sent;
-          _context3.next = 7;
+          _context3.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_SUCCESS"],
-            data: result.data
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_COMMENTS_SUCCESS"],
+            data: {
+              postId: action.data,
+              comments: result.data
+            }
           });
 
-        case 7:
-          _context3.next = 14;
+        case 6:
+          _context3.next = 13;
           break;
 
-        case 9:
-          _context3.prev = 9;
-          _context3.t0 = _context3["catch"](1);
+        case 8:
+          _context3.prev = 8;
+          _context3.t0 = _context3["catch"](0);
           console.error(_context3.t0);
-          _context3.next = 14;
+          _context3.next = 13;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_FAILURE"],
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_COMMENTS_FAILURE"],
             error: _context3.t0
           });
 
-        case 14:
+        case 13:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked3, null, [[1, 9]]);
+  }, _marked3, null, [[0, 8]]);
 }
 
-function watchAddPost() {
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchAddPost$(_context4) {
+function watchLoadComments() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLoadComments$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_REQUEST"], addPost);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_COMMENTS_REQUEST"], loadComments);
 
         case 2:
         case "end":
@@ -2766,26 +2917,33 @@ function watchAddPost() {
   }, _marked4);
 }
 
-function loadMainPostsAPI() {
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/posts');
+function addCommentAPI(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/post/".concat(data.postId, "/comment"), {
+    content: data.content
+  }, {
+    withCredentials: true
+  });
 }
 
-function loadMainPosts() {
+function addComment(action) {
   var result;
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function loadMainPosts$(_context5) {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function addComment$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
           _context5.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(loadMainPostsAPI);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(addCommentAPI, action.data);
 
         case 3:
           result = _context5.sent;
           _context5.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_SUCCESS"],
-            data: result.data
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_SUCCESS"],
+            data: {
+              postId: action.data.postId,
+              comment: result.data
+            }
           });
 
         case 6:
@@ -2798,7 +2956,7 @@ function loadMainPosts() {
           console.error(_context5.t0);
           _context5.next = 13;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_FAILURE"],
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_FAILURE"],
             error: _context5.t0
           });
 
@@ -2810,13 +2968,13 @@ function loadMainPosts() {
   }, _marked5, null, [[0, 8]]);
 }
 
-function watchLoadMainPosts() {
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLoadMainPosts$(_context6) {
+function watchAddComment() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchAddComment$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_COMMENT_REQUEST"], addComment);
 
         case 2:
         case "end":
@@ -2826,20 +2984,393 @@ function watchLoadMainPosts() {
   }, _marked6);
 }
 
-function postSaga() {
-  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function postSaga$(_context7) {
+function addPostAPI(postData) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/post', postData, {
+    withCredentials: true
+  });
+}
+
+function addPost(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function addPost$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
-          _context7.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchAddPost), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLoadMainPosts), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchAddComment)]);
+          console.log(action.data);
+          _context7.prev = 1;
+          _context7.next = 4;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(addPostAPI, action.data);
 
-        case 2:
+        case 4:
+          result = _context7.sent;
+          _context7.next = 7;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_SUCCESS"],
+            data: result.data
+          });
+
+        case 7:
+          _context7.next = 14;
+          break;
+
+        case 9:
+          _context7.prev = 9;
+          _context7.t0 = _context7["catch"](1);
+          console.error(_context7.t0);
+          _context7.next = 14;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_FAILURE"],
+            error: _context7.t0
+          });
+
+        case 14:
         case "end":
           return _context7.stop();
       }
     }
-  }, _marked7);
+  }, _marked7, null, [[1, 9]]);
+}
+
+function watchAddPost() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchAddPost$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["ADD_POST_REQUEST"], addPost);
+
+        case 2:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, _marked8);
+}
+
+function loadMainPostsAPI() {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/posts');
+}
+
+function loadMainPosts() {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function loadMainPosts$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.prev = 0;
+          _context9.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(loadMainPostsAPI);
+
+        case 3:
+          result = _context9.sent;
+          _context9.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_SUCCESS"],
+            data: result.data
+          });
+
+        case 6:
+          _context9.next = 13;
+          break;
+
+        case 8:
+          _context9.prev = 8;
+          _context9.t0 = _context9["catch"](0);
+          console.error(_context9.t0);
+          _context9.next = 13;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_FAILURE"],
+            error: _context9.t0
+          });
+
+        case 13:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, _marked9, null, [[0, 8]]);
+}
+
+function watchLoadMainPosts() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLoadMainPosts$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          _context10.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
+
+        case 2:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  }, _marked10);
+}
+
+function loadHashtagPostsAPI(tag) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/hashtag/".concat(tag));
+}
+
+function loadHashtagPosts(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function loadHashtagPosts$(_context11) {
+    while (1) {
+      switch (_context11.prev = _context11.next) {
+        case 0:
+          _context11.prev = 0;
+          _context11.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(loadHashtagPostsAPI, action.data);
+
+        case 3:
+          result = _context11.sent;
+          _context11.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_HASHTAG_POSTS_SUCCESS"],
+            data: result.data
+          });
+
+        case 6:
+          _context11.next = 13;
+          break;
+
+        case 8:
+          _context11.prev = 8;
+          _context11.t0 = _context11["catch"](0);
+          console.error(_context11.t0);
+          _context11.next = 13;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_HASHTAG_POSTS_FAILURE"],
+            error: _context11.t0
+          });
+
+        case 13:
+        case "end":
+          return _context11.stop();
+      }
+    }
+  }, _marked11, null, [[0, 8]]);
+}
+
+function watchLoadHashtagPosts() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLoadHashtagPosts$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          _context12.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_HASHTAG_POSTS_REQUEST"], loadHashtagPosts);
+
+        case 2:
+        case "end":
+          return _context12.stop();
+      }
+    }
+  }, _marked12);
+}
+
+function loadUserPostsAPI(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/user/".concat(id, "/posts"));
+}
+
+function loadUserPosts(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function loadUserPosts$(_context13) {
+    while (1) {
+      switch (_context13.prev = _context13.next) {
+        case 0:
+          _context13.prev = 0;
+          _context13.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(loadUserPostsAPI, action.data);
+
+        case 3:
+          result = _context13.sent;
+          _context13.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_USER_POSTS_SUCCESS"],
+            data: result.data
+          });
+
+        case 6:
+          _context13.next = 13;
+          break;
+
+        case 8:
+          _context13.prev = 8;
+          _context13.t0 = _context13["catch"](0);
+          console.error(_context13.t0);
+          _context13.next = 13;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_USER_POSTS_FAILURE"],
+            error: _context13.t0
+          });
+
+        case 13:
+        case "end":
+          return _context13.stop();
+      }
+    }
+  }, _marked13, null, [[0, 8]]);
+}
+
+function watchLoadUserPosts() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLoadUserPosts$(_context14) {
+    while (1) {
+      switch (_context14.prev = _context14.next) {
+        case 0:
+          _context14.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LOAD_USER_POSTS_REQUEST"], loadUserPosts);
+
+        case 2:
+        case "end":
+          return _context14.stop();
+      }
+    }
+  }, _marked14);
+}
+
+function unLikePostAPI(postId) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a["delete"]("/post/".concat(postId, "/like"), {
+    withCredentials: true
+  });
+}
+
+function unLikePost(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function unLikePost$(_context15) {
+    while (1) {
+      switch (_context15.prev = _context15.next) {
+        case 0:
+          _context15.prev = 0;
+          _context15.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(unLikePostAPI, action.data);
+
+        case 3:
+          result = _context15.sent;
+          _context15.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["UNLIKE_POST_SUCCESS"],
+            data: {
+              postId: action.data,
+              userId: result.data.userId
+            }
+          });
+
+        case 6:
+          _context15.next = 13;
+          break;
+
+        case 8:
+          _context15.prev = 8;
+          _context15.t0 = _context15["catch"](0);
+          console.error(_context15.t0);
+          _context15.next = 13;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["UNLIKE_POST_FAILURE"],
+            error: _context15.t0
+          });
+
+        case 13:
+        case "end":
+          return _context15.stop();
+      }
+    }
+  }, _marked15, null, [[0, 8]]);
+}
+
+function watchUnLikePost() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchUnLikePost$(_context16) {
+    while (1) {
+      switch (_context16.prev = _context16.next) {
+        case 0:
+          _context16.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["UNLIKE_POST_REQUEST"], unLikePost);
+
+        case 2:
+        case "end":
+          return _context16.stop();
+      }
+    }
+  }, _marked16);
+}
+
+function likePostAPI(postId) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/post/".concat(postId, "/like"), {}, {
+    withCredentials: true
+  });
+}
+
+function likePost(action) {
+  var result;
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function likePost$(_context17) {
+    while (1) {
+      switch (_context17.prev = _context17.next) {
+        case 0:
+          _context17.prev = 0;
+          _context17.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(likePostAPI, action.data);
+
+        case 3:
+          result = _context17.sent;
+          _context17.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LIKE_POST_SUCCESS"],
+            data: {
+              postId: action.data,
+              userId: result.data.userId
+            }
+          });
+
+        case 6:
+          _context17.next = 13;
+          break;
+
+        case 8:
+          _context17.prev = 8;
+          _context17.t0 = _context17["catch"](0);
+          console.error(_context17.t0);
+          _context17.next = 13;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_2__["LIKE_POST_FAILURE"],
+            error: _context17.t0
+          });
+
+        case 13:
+        case "end":
+          return _context17.stop();
+      }
+    }
+  }, _marked17, null, [[0, 8]]);
+}
+
+function watchLikePost() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchLikePost$(_context18) {
+    while (1) {
+      switch (_context18.prev = _context18.next) {
+        case 0:
+          _context18.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_2__["LIKE_POST_REQUEST"], likePost);
+
+        case 2:
+        case "end":
+          return _context18.stop();
+      }
+    }
+  }, _marked18);
+}
+
+function postSaga() {
+  return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function postSaga$(_context19) {
+    while (1) {
+      switch (_context19.prev = _context19.next) {
+        case 0:
+          _context19.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchAddPost), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLoadMainPosts), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLoadHashtagPosts), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLoadUserPosts), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchAddComment), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLoadComments), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchUpLoadImages), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchLikePost), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(watchUnLikePost)]);
+
+        case 2:
+        case "end":
+          return _context19.stop();
+      }
+    }
+  }, _marked19);
 }
 
 /***/ }),
@@ -3086,7 +3617,7 @@ function watchLogout() {
 
 function loadUSerAPI(userid) {
   //todo
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(userid ? '/user/' : '/user/', {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(userid ? "/user/".concat(userid) : '/user/', {
     withCredentials: true
   });
 }

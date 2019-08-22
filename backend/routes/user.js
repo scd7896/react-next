@@ -3,11 +3,10 @@ const bcrypt = require('bcrypt')
 const db = require('../models')
 const passport = require('passport')
 const router = express.Router()
+const {isLoggedIn} = require('./middleware')
 
-router.get('/', (req, res)=>{
-    if(!req.user){
-        return res.status(401).send('로그인이 필요합니다')
-    }
+router.get('/', isLoggedIn,(req, res)=>{
+    
     const user = Object.assign({}, req.user.toJSON());
     delete user.password
     return res.json(user)
@@ -50,8 +49,36 @@ router.post('/', async (req,res,next)=>{ //회원가입
     }
 })
 
-router.get('/:id',(req,res)=>{
-
+router.get('/:id',async (req,res, next)=>{
+  try{  
+    const user = await db.User.findOne({
+      where : { id: parseInt(req.params.id, 10)},
+      include : [{
+        model: db.Post,
+        as: 'Posts',
+        attributes : ['id'],
+      },{
+        modle : db.User,
+        as : 'Followings',
+        attributes : ['id'],
+      },
+      {
+        model: db.User,
+        as : 'Followers',
+        attributes: ['id']
+      }],
+      attributes : ['id', 'nickname']
+    })
+    const jsonUser = user.toJSON()
+    jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length:0
+    jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length:0
+    jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length:0
+    console.log(jsonuser)
+    return res.json(jsonUser)
+  }catch(e){
+    console.error(e)
+    next(e)
+  }
 })
 router.post('/logout', (req, res)=>{
     req.logout()
@@ -154,7 +181,29 @@ router.delete('/:id/follower', (req, res)=>{
 
 })
 
-router.get('/:id/post', (req,res)=>{
-
+router.get('/:id/posts', async(req,res, next)=>{
+  try{
+    const posts = await db.Post.findAll({
+      where:{
+        UserId : parseInt(req.params.id, 10),
+        RetweetId : null
+      },
+      include:[{
+        model : db.User,
+        attributes : ['id', 'nickname'],
+      },{
+        model : db.Image
+      },{
+        model : db.User,
+        through : 'Like',
+        as : 'Likes',
+        attributes : ['id'],
+      }]
+    })
+    return res.json(posts)
+  }catch(e){
+    console.error(e)
+    next(e)
+  }
 })
 module.exports = router

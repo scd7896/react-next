@@ -6,11 +6,14 @@ const expressSession = require('express-session')
 const dotenv = require('dotenv')
 const passport = require('passport')
 
+
 const passportConfig = require('./passport')
 const db = require('./models')
 const userAPIRouter = require('./routes/user')
 const postAPIRouter = require('./routes/post')
 const postsAPIRouter = require('./routes/posts')
+const hashtagAPIRouter = require('./routes/hashtag')
+
 
 dotenv.config()
 const app = express()
@@ -24,6 +27,7 @@ app.use(cors({ //쿠키로 교환되는 단위
     origin: true,
     credentials: true,
 }))
+app.use('/',express.static('uploads'))
 app.use(express.json()) // json으로 데이터 받기 
 app.use(express.urlencoded({extended:true})) //form데이터 처리
 app.use(cookieParser(process.env.COOKIE_SECRET))
@@ -44,6 +48,7 @@ app.use(passport.session())
 app.use('/api/user', userAPIRouter)
 app.use('/api/post', postAPIRouter)
 app.use('/api/posts', postsAPIRouter)
+app.use('/api/hashtag', hashtagAPIRouter)
 
 app.listen(3065, ()=>{
     console.log(`server is running on http://localhost:${3065}`)
