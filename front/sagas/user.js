@@ -4,12 +4,19 @@ import axios from 'axios'
 
 
 // watch -> watch했을때 작동되는 함수 -> 서버에 데이터 통신하는 api함수
-
+/* 
+    제한해서 받아오는 방법 한번에 불러오는 단위 limit 건너뛰는 점은 offset = skip이라고도함
+    loadFollwingsApi(userId, offset = 0, limit = 3){
+        return axios.get(`/user/${userId||0}/followings?offset=${offset}&limit=${limit}`,{
+            withCredentials : true
+        })
+    }
+*/
 function loginApi(loginData){
     //TOD 서버에 요청을 보내는 부분
     return axios.post('/user/login', loginData.data,{
-        withCredentials : true,
-    })
+        withCredentials : true,//클라이언트에서 보낼때는 브라우저가 쿠키를 보냄
+    }) // SSR일 경우는 브라우저가 없다.
 }
 
 function* login(action){

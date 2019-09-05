@@ -11,14 +11,7 @@ const User = ({id})=>{
     const {userInfo} = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(()=>{
-        dispatch({
-            type : LOAD_USER_REQUEST,
-            data: id
-        })
-        dispatch({
-            type: LOAD_USER_POSTS_REQUEST,
-            data: id
-        })
+        
     },[])
     return(
         <div>
@@ -56,7 +49,16 @@ const User = ({id})=>{
 }
 User.getInitialProps = async(context)=>{
     console.log('User의 getInitialProps는 ' , context.query.id)
-    return {id: parseInt(context.query.id, 10)}
+    const id = parseInt(context.query.id, 10)
+    context.store.dispatch({
+        type : LOAD_USER_REQUEST,
+        data: id
+    })
+    context.store.dispatch({
+        type: LOAD_USER_POSTS_REQUEST,
+        data: id
+    })
+    return {id}
 }
 
 export default User

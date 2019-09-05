@@ -60,7 +60,9 @@ const Signup = ()=>{
         setPasswordError(e.target.value !== password)
         setPasswordChk(e.target.value)
     }, [password])
-    
+    if(me){
+        return null
+    }
     return(
         <>
                 <Form onSubmit = {onSubmit} style = {{ padding : 10 }}>
